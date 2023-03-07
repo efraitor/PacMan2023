@@ -9,12 +9,16 @@ public class MsPacmanMovement : MonoBehaviour
 
     //Referencia al Rigidbody del jugador
     private Rigidbody2D theRB;
+    //Referencia al Animator del jugador
+    private Animator anim;
 
     // Start is called before the first frame update
     void Start()
     {
         //Inicializamos el Rigidbody
         theRB = GetComponent<Rigidbody2D>();
+        //Inicializamos el Animator
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -44,5 +48,11 @@ public class MsPacmanMovement : MonoBehaviour
             //Movemos al personaje en esa dirección
             theRB.velocity = new Vector2(0f, speed);
         }
+
+        //ANIMATIONS
+        //Dependiendo del valor de la velocidad del Rigidbody en X, MsPacman mirará a la derecha o a la izquierda
+        anim.SetFloat("DirX", theRB.velocity.x);//Accedemos al Animator de MsPacman, y aplicando un cambio en su parámetro DirX, conseguimos el cambio en la animación
+        //Para la Y aplicaríamos exactamente lo mismo que para la X
+        anim.SetFloat("DirY", theRB.velocity.y);
     }
 }
