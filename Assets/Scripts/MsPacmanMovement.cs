@@ -55,4 +55,11 @@ public class MsPacmanMovement : MonoBehaviour
         //Para la Y aplicaríamos exactamente lo mismo que para la X
         anim.SetFloat("DirY", theRB.velocity.y);
     }
+
+    //Método para hacer que MsPacman muera
+    public void MsPacmanDead()
+    {
+        //Destruimos a MsPacman
+        Destroy(gameObject);
+    }
 }

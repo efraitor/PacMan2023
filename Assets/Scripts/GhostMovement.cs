@@ -38,7 +38,12 @@ public class GhostMovement : MonoBehaviour
                 //Reseteamos al primer punto de los guardados
                 currentWaypoint = 0;
             }
-            
+
+            //Nueva dirección para calcular la animación si cambiamos de dirección: hacia donde va - donde está ahora
+            Vector2 newDirection = waypoints[currentWaypoint].position - transform.position;
+            //Cambiamos las animaciones
+            GetComponent<Animator>().SetFloat("DirX", newDirection.x);
+            GetComponent<Animator>().SetFloat("DirY", newDirection.y);
         }
         //Y si no ha llegado al destino el fantasma
         else
@@ -47,6 +52,17 @@ public class GhostMovement : MonoBehaviour
             Vector2 newPos = Vector2.MoveTowards(transform.position, waypoints[currentWaypoint].position, speed * Time.deltaTime);
             //Hacemos que se mueva a la posición que le toca
             GetComponent<Rigidbody2D>().MovePosition(newPos);
+        }
+    }
+
+    //Reacción de los fantasmas al choque con otros objetos
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //Si el objeto contra el que ha chocado está etiquetado como Player(MsPacman)
+        if(collision.CompareTag("Player"))
+        {
+            //Destruye a MsPacman(obteniendo de este GameObject su código, para poder coger de este el método MsPacmanDead())
+            collision.gameObject.GetComponent<MsPacmanMovement>().MsPacmanDead();
         }
     }
 }
